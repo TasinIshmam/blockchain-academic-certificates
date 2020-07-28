@@ -17,8 +17,11 @@
     "engineStrict": true,
     "author": "emali",
     "dependencies": {
+        "crypto-js": "latest",
         "fabric-contract-api": "^2.1.2",
-        "fabric-shim": "^2.1.2"
+        "fabric-shim": "^2.1.2",
+        "jsrsasign": "^8.0.20",
+        "merkletreejs": "^0.2.8"
     },
     "devDependencies": {
         "chai": "^4.1.2",
