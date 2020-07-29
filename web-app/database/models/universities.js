@@ -39,6 +39,12 @@ const universitySchema = new mongoose.Schema({
         minlength: 2
     },
 
+    publicKey: {   //hex value of key
+        type: String,
+        required: true,
+        minlength: 10
+    }
+
 });
 
 universitySchema.statics.saltAndHashPassword = async function (password) {
