@@ -16,6 +16,7 @@ module.exports = {
     mongodbURI : process.env.MONGODB_URI,
     port: process.env.PORT,
     logLevel: process.env.LOG_LEVEL || "info",
+    expressSessionSecret : process.env.EXPRESS_SESSION_SECRET,
 };
 
 

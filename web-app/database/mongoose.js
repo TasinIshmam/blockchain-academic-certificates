@@ -17,4 +17,4 @@ mongoose.connect( config.mongodbURI, {
         logger.error(err)
     });
 
-module.exports = {mongoose};
+module.exports = mongoose;
