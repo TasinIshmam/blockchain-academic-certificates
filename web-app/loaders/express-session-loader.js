@@ -7,9 +7,10 @@ const mongoose = require("../database/mongoose");
 const mongoStore = connectMongo(expressSession);
 
 let expessSessionConfig = {
-    name: 'session_id', //This will need to be sent with all ajax cals to verify session/authentica user.
+    name: 'session_id', //This will need to be sent with all ajax cals to verify session/authenticate user.
     secret: config.expressSessionSecret,
     resave: false,
+    httpOnly: false,
     saveUninitialized: false,
     cookie : {
         maxAge:  86400000

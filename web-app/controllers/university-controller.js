@@ -4,7 +4,7 @@ let chaincode = require('../services/fabric/chaincode');
 let logger = require("../services/logger");
 
 //
-async function registerUniversity(req, res, next) {
+async function postRegisterUniversity(req, res, next) {
     try {
         let keys = await fabricEnrollment.registerUser(req.body.email);
         let location = req.body.location + `, ${req.body.country}`;
@@ -30,6 +30,21 @@ async function registerUniversity(req, res, next) {
 }
 
 
+async function postLoginUniversity (req,res,next) {
+    try {
+        let universityObject = await universities.validateByCredentials(req.body.email, req.body.password)
+        req.session.user_id = universityObject._id;
+        req.session.user_type = "university";
+        req.session.email = universityObject.email;
+        req.session.name = universityObject.name;
+
+        return res.redirect("/university/dashboard")
+    } catch (e) {
+        logger.error(e);
+        next(e);
+    }
+}
 
 
-module.exports = {registerUniversity};
+
+module.exports = {postRegisterUniversity, postLoginUniversity};

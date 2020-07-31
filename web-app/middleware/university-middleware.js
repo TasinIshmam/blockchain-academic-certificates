@@ -3,6 +3,23 @@ const logger = require('../services/logger');
 
 
 
+function authenticateLogin (req, res, next) {
+    try {
+        if (req.session.user_type === "university") next();
+        else throw new Error("Unauthorized access: Login first");
+    } catch (e) {
+        next(e);
+    }
+}
+
+function redirectToDashboardIfLoggedIn(req,res,next) {
+    try {
+        if (req.session.user_type === "university") return res.redirect('/university/dashboard');
+    } catch (e) {
+        next(e);
+    }
+}
+
 //MUST BE FIRST MIDDLEWARE UNLESS DEBUGGING.
 authenticate_if_logged_in_html_response = async (req, res, next) => {
 
@@ -91,7 +108,7 @@ let allow_only_admin = async (req, res, next) => {
 };
 
 
-module.exports = {authenticate_if_logged_in_html_response, authenticate_if_logged_in_json_response, debug_bypass_authentication_session, allow_only_admin, authenticate_if_admin_html_response, authenticate_if_manager_html_response, redirect_if_logged_in};
+module.exports = {authenticateLogin, redirectToDashboardIfLoggedIn};
 
 
 

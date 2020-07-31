@@ -12,7 +12,7 @@
 
 <body class="bg-light">
 
-<%- include('partials/navbar-partial.ejs') %>.
+<%- include('partials/navbar-partial.ejs') %>
 
 
 <div class="row justify-content-center">
@@ -27,13 +27,13 @@
                     <div class="form-row">
                                           <div class="col form-group">
                             <userName>Email</userName>
-                            <input required type="email" class="form-control" placeholder=" ">
+                            <input name="email" required type="email" class="form-control" placeholder=" ">
                         </div> <!-- form-group end.// -->
                     </div> <!-- form-row end.// -->
 
                     <div class="form-group">
                         <userName>Password</userName>
-                        <input required class="form-control" type="password">
+                        <input name="password" required class="form-control" type="password">
                     </div> <!-- form-group end.// -->
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-block"> Login  </button>

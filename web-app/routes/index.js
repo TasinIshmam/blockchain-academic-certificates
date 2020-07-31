@@ -1,20 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const universityController = require('../controllers/university-controller');
+
+let title = "Blockchain Certificate"
+
+
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', {} );
+router.get('/', function(req, res, next) { res.render('index', {   title,
+        logInType: req.session.user_type || "none"
+    });
 });
 
 
-router.get('/university/register', function(req, res, next) {
-  res.render('register-university', {} );
-});
 
-router.get('/university/login', function (req,res,next) {
-  res.render('login-university', {})
-});
-
-router.post('/university/register/submit', universityController.registerUniversity);
 
 module.exports = router;
