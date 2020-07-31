@@ -45,11 +45,11 @@ async function enrollAdmin() {
 
 /**
  * Enrolls a generic user into the client (Used for students and universities)
- * @param userName
+ * @param email
  * @returns {Promise<{Keys} | Error>}
  * TODO: There's no way to differentiate students and universities in the MSP this way. Possibly consider changing.
  */
-async function registerUser(userName){
+async function registerUser(email){
     try {
         // Create a new CA client for interacting with the CA.
         const caURL = ccp.certificateAuthorities['ca.org1.example.com'].url;
@@ -59,9 +59,9 @@ async function registerUser(userName){
         const wallet = await Wallets.newFileSystemWallet(config.fabric.walletPath);
 
         // Check to see if we've already enrolled the user.
-        const userIdentity = await wallet.get(userName);
+        const userIdentity = await wallet.get(email);
         if (userIdentity) {
-            throw Error(`An identity for the user ${userName} already exists in the wallet`);
+            throw Error(`An identity for the user ${email} already exists in the wallet`);
         }
 
         // Check to see if we've already enrolled the admin user.
@@ -78,21 +78,21 @@ async function registerUser(userName){
         // Register the user, enroll the user, and import the new identity into the wallet.
         const secret = await ca.register({
             affiliation: 'org1.department1',
-            enrollmentID: userName,
+            enrollmentID: email,
             role: 'client'
         }, adminUser);
 
         const enrollment = await ca.enroll({
-            enrollmentID: userName,
+            enrollmentID: email,
             enrollmentSecret: secret
         });
 
-        let userKeys = await walletUtils.createNewWalletEntity(enrollment, userName);
-        logger.info(`Successfully registered and enrolled  user ${userName} and imported it into the wallet`);
+        let userKeys = await walletUtils.createNewWalletEntity(enrollment, email);
+        logger.info(`Successfully registered and enrolled  user ${email} and imported it into the wallet`);
         return userKeys;
 
     } catch (error){
-        logger.error(`Failed to register user ${userName}": ${error}`);
+        logger.error(`Failed to register user ${email}": ${error}`);
         throw error;
     }
 }

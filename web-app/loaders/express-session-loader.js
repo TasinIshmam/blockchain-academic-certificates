@@ -6,7 +6,7 @@ const mongoose = require("../database/mongoose");
 
 const mongoStore = connectMongo(expressSession);
 
-expessSessionConfig = {
+let expessSessionConfig = {
     name: 'session_id', //This will need to be sent with all ajax cals to verify session/authentica user.
     secret: config.expressSessionSecret,
     resave: false,
@@ -20,7 +20,7 @@ expessSessionConfig = {
     })
 };
 
-sessionMiddleware = expressSession(expessSessionConfig);
+let sessionMiddleware = expressSession(expessSessionConfig);
 
 
 module.exports =  sessionMiddleware;

@@ -20,7 +20,9 @@ module.exports = {
 
     fabric: {
         ccpPath: process.env.CCP_PATH,
-        walletPath: require('path').resolve(__dirname, "..", "wallet")
+        walletPath: require('path').resolve(__dirname, "..", "wallet"),
+        channelName : process.env.FABRIC_CHANNEL_NAME,
+        chaincodeName : process.env.FABRIC_CHAINCODE_NAME
     }
 };
 
