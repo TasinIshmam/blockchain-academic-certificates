@@ -5,6 +5,10 @@ const config = require('./loaders/config');
 //load database
 const mongoose = require('./database/mongoose');
 
+//load fabric environemtn
+require('./loaders/fabric-loader');
+
+
 //third party libraries
 let createError = require('http-errors');
 let express = require('express');
@@ -61,6 +65,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-logger.info("Finished running app.js");
 
 module.exports = app;

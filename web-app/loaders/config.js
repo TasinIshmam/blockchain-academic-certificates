@@ -1,4 +1,3 @@
-
 //add configuration files
 //initialize environment variables
 //try to use the export from this file instead of touching process.env directly.
@@ -13,10 +12,16 @@ if (env === 'development') {
 
 
 module.exports = {
-    mongodbURI : process.env.MONGODB_URI,
+    mongodbURI: process.env.MONGODB_URI,
     port: process.env.PORT,
     logLevel: process.env.LOG_LEVEL || "info",
-    expressSessionSecret : process.env.EXPRESS_SESSION_SECRET,
+    expressSessionSecret: process.env.EXPRESS_SESSION_SECRET,
+
+
+    fabric: {
+        ccpPath: process.env.CCP_PATH,
+        walletPath: require('path').resolve(__dirname, "..", "wallet")
+    }
 };
 
 

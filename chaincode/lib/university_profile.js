@@ -1,6 +1,8 @@
 'use strict';
 
 
+
+
 class UniversityProfile {
    /**
     * Public profile of a university

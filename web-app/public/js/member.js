@@ -31,7 +31,7 @@ function updateMember() {
             //check data for error
             if (data.error) {
                 alert(data.error);
-                return;
+
             } else {
 
                 //update heading
@@ -145,7 +145,7 @@ function earnPoints(formPoints) {
             //check data for error
             if (data.error) {
                 alert(data.error);
-                return;
+
             } else {
                 //update member page and notify successful transaction
                 updateMember();
@@ -220,7 +220,7 @@ function usePoints(formPoints) {
             //check data for error
             if (data.error) {
                 alert(data.error);
-                return;
+
             } else {
                 //update member page and notify successful transaction
                 updateMember();

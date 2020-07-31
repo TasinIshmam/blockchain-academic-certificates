@@ -40,7 +40,7 @@ $('.register-member').click(function() {
             if (data.error) {
                 document.getElementById('registration').style.display = 'block';
                 alert(data.error);
-                return;
+
             } else {
                 //notify successful registration
                 document.getElementById('successful-registration').style.display = 'block';
@@ -93,7 +93,7 @@ $('.register-partner').click(function() {
             if (data.error) {
                 document.getElementById('registration').style.display = 'block';
                 alert(data.error);
-                return;
+
             } else {
                 //notify successful registration
                 document.getElementById('successful-registration').style.display = 'block';

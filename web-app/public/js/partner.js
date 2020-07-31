@@ -32,7 +32,7 @@ $('.sign-in-partner').click(function() {
             //check data for error
             if (data.error) {
                 alert(data.error);
-                return;
+
             } else {
 
                 //update heading
