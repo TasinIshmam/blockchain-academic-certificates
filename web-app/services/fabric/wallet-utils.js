@@ -8,7 +8,7 @@ const logger = require('../logger');
  * Adds a new user/entity to the wallet. Creates a separate json file to store hex keys of the user.
  * @param {FabricCAServices.IEnrollResponse} enrollmentObject
  * @param {String} userName
- * @returns {Promise<void | Error>}
+ * @returns {Promise<{} | Error>} public and private key in hex format;
  */
 async function createNewWalletEntity(enrollmentObject, userName) {
     const wallet = await Wallets.newFileSystemWallet(config.fabric.walletPath);
@@ -31,16 +31,14 @@ async function createNewWalletEntity(enrollmentObject, userName) {
     };
 
     let hexDataString = JSON.stringify(hexKeyEntity, null, 4);
-    try {
-        await Promise.all([
-            wallet.put(userName, x509Identity),
-            fs.writeFile(path.join(config.fabric.walletPath, `${userName}.json`), hexDataString,
-                (err) => { if (err) throw err})
-        ]);
-    } catch (err) {
-        logger.error("Error in createNewWallet", err);
-        throw err;
-    }
+
+    await Promise.all([
+        wallet.put(userName, x509Identity),
+        fs.writeFile(path.join(config.fabric.walletPath, `${userName}.json`), hexDataString,
+            (err) => { if (err) throw err})
+    ]);
+
+    return hexKeyEntity;
 }
 
 /**

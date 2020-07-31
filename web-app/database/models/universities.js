@@ -106,7 +106,7 @@ universitySchema.pre('save', async function (next) {
 
 universitySchema.index({"email" : 1}, {unique: true});
 let universities = mongoose.model("universities", universitySchema);
-universities.createIndexes();
+universities.createIndexes();  //idempotent operation. Only called once.  (Calling createIndex manually like this is perfectly fine if autoIndex is turned off)
 
 module.exports = universities;
 

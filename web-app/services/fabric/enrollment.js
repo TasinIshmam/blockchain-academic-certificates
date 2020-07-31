@@ -13,7 +13,7 @@ const ccp =  JSON.parse(fs.readFileSync(config.fabric.ccpPath, 'utf8'));
 
 /**
  * Enrolls Admin object into wallet.
- * @returns {Promise<void>}
+ * @returns {Promise<{Keys}>}
  */
 async function enrollAdmin() {
     try {
@@ -34,8 +34,9 @@ async function enrollAdmin() {
 
         // Enroll the admin user, and import the new identity into the wallet.
         const enrollment = await ca.enroll({ enrollmentID: 'admin', enrollmentSecret: 'adminpw' });
-        await walletUtils.createNewWalletEntity(enrollment, "admin");
+        let adminKeys = await walletUtils.createNewWalletEntity(enrollment, "admin");
         logger.info('Successfully enrolled admin user "admin" and imported it into the wallet.');
+        return adminKeys;
     } catch (error) {
         logger.error(`Failed to enroll admin user "admin": ${error}`);
         process.exit(1);
@@ -45,7 +46,7 @@ async function enrollAdmin() {
 /**
  * Enrolls a generic user into the client (Used for students and universities)
  * @param userName
- * @returns {Promise<void>}
+ * @returns {Promise<{Keys} | Error>}
  * TODO: There's no way to differentiate students and universities in the MSP this way. Possibly consider changing.
  */
 async function registerUser(userName){
@@ -60,16 +61,14 @@ async function registerUser(userName){
         // Check to see if we've already enrolled the user.
         const userIdentity = await wallet.get(userName);
         if (userIdentity) {
-            logger.info(`An identity for the user ${userName} already exists in the wallet`);
-            return;
+            throw Error(`An identity for the user ${userName} already exists in the wallet`);
         }
 
         // Check to see if we've already enrolled the admin user.
         const adminIdentity = await wallet.get('admin');
         if (!adminIdentity) {
-            logger.info('An identity for the admin user "admin" does not exist in the wallet');
-            logger.info('Enroll Admin first before retrying');
-            return;
+            throw Error('An identity for the admin user "admin" does not exist in the wallet');
+
         }
 
         // build a user object for authenticating with the CA
@@ -88,12 +87,13 @@ async function registerUser(userName){
             enrollmentSecret: secret
         });
 
-        await walletUtils.createNewWalletEntity(enrollment, userName);
+        let userKeys = await walletUtils.createNewWalletEntity(enrollment, userName);
         logger.info(`Successfully registered and enrolled  user ${userName} and imported it into the wallet`);
+        return userKeys;
 
     } catch (error){
-        logger.error(`Failed to register user "vendor": ${error}`);
-        process.exit(1);
+        logger.error(`Failed to register user ${userName}": ${error}`);
+        throw error;
     }
 }
 
