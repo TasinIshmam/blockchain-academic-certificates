@@ -111,14 +111,11 @@ async function connectToNetwork(userEmail) {
 
 }
 
-async function invokeChaincode(isQuery, func, args, userEmail) {
+async function invokeChaincode( func, args, isQuery, userEmail) {
     try {
         let networkObj = await connectToNetwork(userEmail);
         logger.debug('inside invoke');
         logger.debug(`isQuery: ${isQuery}, func: ${func}, args: ${args}`);
-
-
-        // logger.debug(util.inspect(JSON.parse(args[0])));
 
         if (isQuery === true) {
             logger.debug('inside isQuery');
@@ -126,7 +123,7 @@ async function invokeChaincode(isQuery, func, args, userEmail) {
             if (args) {
                 logger.debug('inside isQuery, args');
                 logger.debug(args);
-                let response = await networkObj.contract.evaluateTransaction(func, args);
+                let response = await networkObj.contract.evaluateTransaction(func, ...args);
                 logger.debug(response);
                 logger.debug(`Transaction ${func} with args ${args} has been evaluated`);
 
@@ -151,17 +148,8 @@ async function invokeChaincode(isQuery, func, args, userEmail) {
                 logger.debug('$$$$$$$$$$$$$ args: ');
                 logger.debug(args);
                 logger.debug(func);
-                logger.debug(typeof args);
 
-                args = JSON.parse(args[0]);
-
-                logger.debug(util.inspect(args));
-                args = JSON.stringify(args);
-                logger.debug(util.inspect(args));
-
-                logger.debug('before submit');
-                logger.debug(util.inspect(networkObj));
-                let response = await networkObj.contract.submitTransaction(func, args);
+                let response = await networkObj.contract.submitTransaction(func, ...args);
                 logger.debug('after submit');
 
                 logger.debug(response);
