@@ -26,7 +26,6 @@ const sessionMiddleware = require('./loaders/express-session-loader');
 //Router imports
 let indexRouter = require('./routes/index');
 let apiRouter = require('./routes/api');
-let authRouter = require('./routes/auth');
 
 //express
 let app = express();
@@ -51,7 +50,6 @@ app.use(sessionMiddleware);
 //routers
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
-app.use('/auth', authRouter);
 
 
 // catch 404 and forward to error handler

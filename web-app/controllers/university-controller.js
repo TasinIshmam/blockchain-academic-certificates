@@ -21,13 +21,15 @@ async function registerUniversity(req, res, next) {
         let result = await chaincode.invokeChaincode("registerUniversity",
             [ req.body.name, keys.publicKey, location, req.body.description], false, req.body.email);
 
-
         res.render("register-success", {});
     }
     catch (e) {
+        logger.error(e);
         next(e);
     }
 }
+
+
 
 
 module.exports = {registerUniversity};
