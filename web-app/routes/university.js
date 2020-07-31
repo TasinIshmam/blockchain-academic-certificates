@@ -26,7 +26,6 @@ router.post('/register/submit', universityController.postRegisterUniversity);
 
 router.post('/login/submit', universityController.postLoginUniversity);
 
-
-
+router.get('/logout', universityController.logOutAndRedirect);
 
 module.exports = router;

@@ -45,6 +45,9 @@ async function postLoginUniversity (req,res,next) {
     }
 }
 
-
-
-module.exports = {postRegisterUniversity, postLoginUniversity};
+async function logOutAndRedirect (req, res, next) {
+    req.session.destroy(function () {
+        res.redirect('/');
+    });
+};
+module.exports = {postRegisterUniversity, postLoginUniversity, logOutAndRedirect};

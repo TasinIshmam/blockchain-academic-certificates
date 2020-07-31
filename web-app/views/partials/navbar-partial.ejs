@@ -11,14 +11,10 @@
         </ul>
 
         <ul class="navbar-nav px-3">
-            <li class="nav-item text-nowrap">
-                <a class="nav-link" href="/about">About</a>
-            </li>
-
 
             <% if (logInType === "university") { %>
                 <li class="nav-item text-nowrap">
-                    <a class="nav-link" href="/univesity/logout">Logout</a>
+                    <a class="nav-link" href="/university/logout">Logout</a>
                 </li>
             <%} else if (logInType ==="student") { %>
                 <li class="nav-item text-nowrap">
