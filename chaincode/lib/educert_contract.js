@@ -6,19 +6,28 @@ const Certificate = require('./certificate');
 const UniversityProfile = require('./university_profile');
 
 
-/**
- * The e-store smart contract
- */
+
 class EducertContract extends Contract {
 
     /**
-     * Initialize the ledger.
+     * Initialize the ledger. 
+     * Certificate schema is written to database during initialization. Schema is necessary for encryption. 
      * @param {Context} ctx the transaction context.
      */
-    // eslint-disable-next-line no-unused-vars
     async initLedger(ctx) {
         console.log("-------------------------initLedger Called---------------------------------------")
         //Have nothing to initialize the ledger with at the moment. 
+
+        let schemaCertificate = {
+            dataType : "schema",
+            version: "v1",
+            ordering: ["studentName", "studentEmail", "universityName", "universityEmail", "major", "departmentName", "cgpa", "dateOfIssue"],
+            certificateType: "university degree"
+        }
+
+        await ctx.stub.putState("schema_v1", Buffer.from(JSON.stringify(schemaCertificate)));
+
+        return schemaCertificate;
     }
 
     /**
@@ -78,6 +87,23 @@ class EducertContract extends Contract {
         console.log(`University ${name} Query Successful. Profile: `);
         console.log(profileAsBytes.toString());
         return JSON.parse(profileAsBytes.toString());
+    }
+
+    /**
+     * Get the certificate schema and ordering. 
+     * @param {Context} ctx The transaction context
+     * @param {String} schemaVersion Schema version number. Eg - "v1", "v2" etc
+     */
+    async queryCertificateSchema(ctx, schemaVersion) {
+        let schemaAsBytes = await ctx.stub.getState("schema_" + schemaVersion);
+
+        if (!schemaAsBytes || schemaAsBytes.length === 0) {
+            throw new Error(`Schema ${schemaVersion} does not exist`);
+        }
+
+        console.log(`Schema ${schemaVersion} Query Successful. Schema: `);
+        console.log(schemaAsBytes.toString());
+        return JSON.parse(schemaAsBytes.toString());
     }
 
     /**
