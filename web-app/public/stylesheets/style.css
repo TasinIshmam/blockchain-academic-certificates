@@ -27,6 +27,9 @@ body {
   margin-bottom: 3rem;
 }
 
+.form-all {
+  margin-top: 3rem;
+}
 .inline {
   /*display: inline;*/
   color: rgba(255,255,255,.5);

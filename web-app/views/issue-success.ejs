@@ -11,40 +11,26 @@
 </head>
 
 <body class="bg-light">
-
 <%- include('partials/navbar-partial.ejs') %>
 
+<!--Name, Public Key, Location, Description, Password, Email-->
 
 <div class="row justify-content-center form-all">
-    <div class="col-md-5">
+    <div class="col-md-6">
         <div class="card">
-            <header class="card-header">
-                <h4 class="card-title mt-2">University Login</h4>
+            <header class="card-header text-center">
+                <h4 class="card-title mt-2 text-center">Certificate Issued Successfully</h4>
             </header>
-            <article class="card-body">
 
-                <form action="/university/login/submit" method="POST" >
-                    <div class="form-row">
-                                          <div class="col form-group">
-                            <userName>Email</userName>
-                            <input name="email" required type="email" class="form-control" placeholder=" ">
-                        </div> <!-- form-group end.// -->
-                    </div> <!-- form-row end.// -->
-
-                    <div class="form-group">
-                        <userName>Password</userName>
-                        <input name="password" required class="form-control" type="password">
-                    </div> <!-- form-group end.// -->
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block"> Login  </button>
-                    </div> <!-- form-group// -->
-                </form>
-            </article> <!-- card-body end .// -->
-            <div class="border-top card-body text-center">Don't have an account? <a href="/university/register">Register</a></div>
+            <div class="border-top card-body text-center"><a href="/university/dashboard">Go to Dashboard </a></div>
         </div> <!-- card.// -->
     </div> <!-- col.//-->
 
 </div> <!-- row.//-->
+
+
+</div>
+<!--container end.//-->
 
 
 </body>
