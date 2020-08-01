@@ -21,7 +21,7 @@ class EducertContract extends Contract {
         let schemaCertificate = {
             dataType : "schema",
             version: "v1",
-            ordering: ["studentName", "studentEmail", "universityName", "universityEmail", "major", "departmentName", "cgpa", "dateOfIssue"],
+            ordering: ["studentName", "studentEmail", "universityName", "universityEmail", "major", "departmentName", "cgpa"],
             certificateType: "university degree"
         }
 
