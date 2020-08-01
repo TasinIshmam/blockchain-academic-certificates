@@ -1,9 +1,15 @@
 let universities = require('../database/models/universities');
+let certificates = require('../database/models/certificates');
+let students = require('../database/models/students');
 let fabricEnrollment  = require('../services/fabric/enrollment');
 let chaincode = require('../services/fabric/chaincode');
 let logger = require("../services/logger");
-
+let universityService = require("../services/university-service");
 //
+
+let title = "University Dashboard";
+let root = "university";
+
 async function postRegisterUniversity(req, res, next) {
     try {
         let keys = await fabricEnrollment.registerUser(req.body.email);
@@ -18,10 +24,12 @@ async function postRegisterUniversity(req, res, next) {
             publicKey: keys.publicKey
         });
 
+
         let result = await chaincode.invokeChaincode("registerUniversity",
             [ req.body.name, keys.publicKey, location, req.body.description], false, req.body.email);
 
-        res.render("register-success", {});
+        res.render("register-success", { title, root,
+            logInType: req.session.user_type || "none"});
     }
     catch (e) {
         logger.error(e);
@@ -50,4 +58,30 @@ async function logOutAndRedirect (req, res, next) {
         res.redirect('/');
     });
 };
+
+async function postIssueCertificate(req,res,next) {
+    try {
+        let certData = {
+            studentEmail: req.body.studentEmail,
+            studentName: req.body.studentName,
+            universityName: req.session.name,
+            universityEmail: req.session.email,
+            major: req.body.major,
+            departmentName:  req.body.department,
+            cgpa: req.body.cgpa,
+            dateOfIssuing: req.body.date,
+        };
+
+        let serviceResponse = await universityService.issueCertificate(certData);
+
+        if(serviceResponse) {
+            res.send(serviceResponse);
+        }
+
+    } catch (e) {
+        logger.error(e);
+        next(e);
+    }
+
+}
 module.exports = {postRegisterUniversity, postLoginUniversity, logOutAndRedirect};

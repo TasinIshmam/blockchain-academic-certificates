@@ -43,26 +43,26 @@ async function createNewWalletEntity(enrollmentObject, userName) {
 
 /**
  * Load the hex form of public and private keys from wallet folder.
- * @param userName
+ * @param email
  * @returns eg -{
     "publicKey": "049d4ece36818123e42346c76847a69cc87eea3a61330024a1f....8",
     "privateKey": "b3a4ad5b9aecda932f304bf4b566715eb26fe3d006729b79d7c454e18b861cb9",
     "userName": "Noobsaibot53@yahoo.com"
 }
  */
-function loadHexKeysFromWallet(userName) {
+function loadHexKeysFromWallet(email) {
     try {
-        let filePath = path.join(config.fabric.walletPath, userName +".json");
+        let filePath = path.join(config.fabric.walletPath, email +".json");
 
         if (!fs.existsSync(filePath)) {
-            logger.error(`User ${userName} does not exist in wallet`);
+            logger.error(`User ${email} does not exist in wallet`);
             return null;
         }
 
-        let rawData = fs.readFileSync(path.join(config.fabric.walletPath, userName +".json"));
+        let rawData = fs.readFileSync(path.join(config.fabric.walletPath, email +".json"));
         return JSON.parse(rawData);
     } catch (e) {
-        logger.error("Error in loadHexKeysFromWallet for username " + userName);
+        logger.error("Error in loadHexKeysFromWallet for username " + email);
         logger.error(e);
         return null;
     }
