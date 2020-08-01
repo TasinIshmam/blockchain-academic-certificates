@@ -29,6 +29,8 @@ router.get('/issue', universityMiddleware.authenticateLogin, function (req,res,n
     })
 });
 
+router.post("/issue", universityController.postIssueCertificate);
+
 
 router.post('/register/submit', universityController.postRegisterUniversity);
 

@@ -10,6 +10,7 @@ let universityService = require("../services/university-service");
 let title = "University Dashboard";
 let root = "university";
 
+
 async function postRegisterUniversity(req, res, next) {
     try {
         let keys = await fabricEnrollment.registerUser(req.body.email);
@@ -46,7 +47,7 @@ async function postLoginUniversity (req,res,next) {
         req.session.email = universityObject.email;
         req.session.name = universityObject.name;
 
-        return res.redirect("/university/dashboard")
+        return res.redirect("/university/issue")
     } catch (e) {
         logger.error(e);
         next(e);
@@ -75,7 +76,8 @@ async function postIssueCertificate(req,res,next) {
         let serviceResponse = await universityService.issueCertificate(certData);
 
         if(serviceResponse) {
-            res.send(serviceResponse);
+            res.render("issue-success", { title, root,
+                logInType: req.session.user_type || "none"});
         }
 
     } catch (e) {
@@ -84,4 +86,4 @@ async function postIssueCertificate(req,res,next) {
     }
 
 }
-module.exports = {postRegisterUniversity, postLoginUniversity, logOutAndRedirect};
+module.exports = {postRegisterUniversity, postLoginUniversity, logOutAndRedirect, postIssueCertificate};

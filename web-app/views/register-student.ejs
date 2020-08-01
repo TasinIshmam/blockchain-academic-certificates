@@ -11,108 +11,48 @@
 </head>
 
 <body class="bg-light">
-
 <%- include('partials/navbar-partial.ejs') %>
-<div class="jumbotron">
-    <div class="container">
-      <h1>Member Registration</h1>
-      <p id="registration-info" style="display:block;">Complete the form below to register as member on the network</p>
-    </div>
-  </div>
+
+<!--Name, Public Key, Location, Description, Password, Email-->
+
+<div class="row justify-content-center form-all">
+  <div class="col-md-6">
+    <div class="card">
+      <header class="card-header">
+        <h4 class="card-title mt-2">Student Sign up</h4>
+      </header>
+      <article class="card-body">
+
+        <form action="/student/register/submit" method="POST">
+          <div class="form-row">
+            <div class="col form-group">
+              <userName>Name </userName>
+              <input name="name" required type="text" class="form-control" placeholder="">
+            </div> <!-- form-group end.// -->
+            <div class="col form-group">
+              <userName>Email</userName>
+              <input name="email" required type="email" class="form-control" placeholder=" ">
+            </div> <!-- form-group end.// -->
+          </div> <!-- form-row end.// -->
+          <div class="form-group">
+            <userName>Create password</userName>
+            <input name="password" required class="form-control" type="password">
+          </div> <!-- form-group end.// -->
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block"> Register  </button>
+          </div> <!-- form-group// -->
+          <small class="text-muted">By clicking the 'Sign Up' button, you confirm that you accept our Terms of use and Privacy Policy.</small>
+        </form>
+      </article> <!-- card-body end .// -->
+      <div class="border-top card-body text-center">Have an account? <a href="/student/login">Log In</a></div>
+    </div> <!-- card.// -->
+  </div> <!-- col.//-->
+
+</div> <!-- row.//-->
 
 
-  <div class="container" id="registration" style="display:block;" enctype="text/html">
-
-    <div class="col-md-6 order-md-1">
-      <div class="mb-3">
-        <userName for="account-number"><b>Account Number </b><span class="text-muted"> (identification on the network)</span></userName>
-        <div class="input-group account-number">
-          <input type="text" class="form-control" id="account-number" placeholder="" required>
-          <div class="invalid-feedback" style="width: 100%;">
-            ID is required.
-          </div>
-        </div>
-        <small class="text-muted">Minimum six digits</small>
-      </div>
-
-      <div class="mb-3">
-        <userName for="card-id"><b>Access Card ID </b><span class="text-muted"> (access id for your account)</span></userName>
-        <div class="input-group card-id">
-          <input type="text" class="form-control" id="card-id" placeholder="" required>
-          <div class="invalid-feedback" style="width: 100%;">
-            ID is required.
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-6 mb-3 first-name">
-          <userName for="firstName"><b>First name</b></userName>
-          <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-          <div class="invalid-feedback">
-            Valid first name is required.
-          </div>
-        </div>
-        <div class="col-md-6 mb-3 last-name">
-          <userName for="lastName"><b>Last name</b></userName>
-          <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
-          <div class="invalid-feedback">
-            Valid last name is required.
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-8 mb-3 email">
-          <userName for="email"><b>Email</b></userName>
-          <input type="text" class="form-control" id="email" placeholder="you@example.com" value="" required>
-          <div class="invalid-feedback">
-            Please enter a valid email address.
-          </div>
-        </div>
-
-      </div>
-
-      <div class="row">
-        <div class="col-md-6 mb-3 phone-number">
-          <userName for="phone-number"><b>Phone Number</b></userName>
-          <input type="text" class="form-control" id="phone-number" placeholder="555-555-5555" value="" required>
-          <div class="invalid-feedback">
-            Please enter your phone number.
-          </div>
-        </div>
-      </div>
-
-      <div>
-
-        <!--h4>Usage of Information</h4>
-            <p>The member is identified on the network with their ID.  They </p>
-        </div-->
-
-        <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block register-member" type="submit">Register</button>
-      </div>
-
-    </div>
-    <hr class="featurette-divider">
-  </div>
-
-  <div class="container text-center">
-    <div class="loader" id="loader" style="display:none;"></div>
-  </div>
-
-  <div class="container text-center" id="successful-registration" style="display:none;">
-    <h4>successfully registered on the blockchain network</h4>
-    <div class="row" style="display:block;">
-      <br>
-      <div><a class="btn btn-primary" href="/member" role="button">Member Sign In &raquo;</a></div>
-      <br>
-      <div><a class="btn btn-primary" href="/home" role="button">Home &raquo;</a></div>
-    </div>
-    <hr class="featurette-divider">
-  </div>
-
-
+</div>
+<!--container end.//-->
 
 
 </body>

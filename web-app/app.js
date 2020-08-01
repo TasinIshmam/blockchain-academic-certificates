@@ -24,9 +24,11 @@ const logger = require('./services/logger');
 const sessionMiddleware = require('./loaders/express-session-loader');
 
 //Router imports
-let indexRouter = require('./routes/index');
+let indexRouter = require('./routes/index-router');
 let apiRouter = require('./routes/api');
-let universityRouter = require('./routes/university');
+let universityRouter = require('./routes/university-router');
+let studentRouter = require('./routes/student-router');
+
 //express
 let app = express();
 
@@ -51,7 +53,7 @@ app.use(sessionMiddleware);
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
 app.use('/university', universityRouter);
-
+app.use('/student', studentRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

@@ -22,16 +22,17 @@ async function issueCertificate(certData) {
 
     let certDBModel = new certificates(certData);
 
-    let mTreeHash =  await encryption.generateMerkleRoot(certData);
+    let mTreeHash =  await encryption.generateMerkleRoot(certDBModel);
     let universitySignature = await encryption.createDigitalSignature(mTreeHash, certData.universityEmail);
     let studentSignature = await encryption.createDigitalSignature(mTreeHash, certData.studentEmail);
 
     let chaincodeResult = await chaincode.invokeChaincode("issueCertificate",
-        [mTreeHash, universitySignature, studentSignature, certData.dateOfIssuing, certDBModel._id, universityObj.publicKey, studentObj.publicKey ]);
+        [mTreeHash, universitySignature, studentSignature, certData.dateOfIssuing, certDBModel._id, universityObj.publicKey, studentObj.publicKey ], false, certData.universityEmail);
 
     logger.debug(chaincodeResult);
 
     let res = await certDBModel.save();
+    if(!res) throw new Error("Could not create certificate in the database");
 
     return true;
     //
