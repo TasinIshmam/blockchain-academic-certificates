@@ -7,80 +7,10 @@ const fs = require('fs');
 const config = require("../../loaders/config");
 const logger = require("../logger");
 
-// //connect to the config file
-// const configPath = path.join(process.cwd(), './config.json');
-// const configJSON = fs.readFileSync(configPath, 'utf8');
-// const config = JSON.parse(configJSON);
-// let connection_file = config.connection_file;
-// // let userName = config.userName;
-// let gatewayDiscovery = config.gatewayDiscovery;
-// let appAdmin = config.appAdmin;
-// let orgMSPID = config.orgMSPID;
-//
-// // connect to the connection file
-// const ccpPath = path.join(process.cwd(), connection_file);
-// const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
-// const ccp = JSON.parse(ccpJSON);
 
 
 const util = require('util');
-//
-// exports.connectToNetwork2 = async function (userName) {
-//
-//     const gateway = new Gateway();
-//
-//     try {
-//         const walletPath = path.join(process.cwd(), 'wallet');
-//         const wallet = new FileSystemWallet(walletPath);
-//         logger.debug(`Wallet path: ${walletPath}`);
-//         logger.debug('userName: ');
-//         logger.debug(userName);
-//
-//         logger.debug('wallet: ');
-//         logger.debug(util.inspect(wallet));
-//         logger.debug('ccp: ');
-//         logger.debug(util.inspect(ccp));
-//         // userName = 'V123412';
-//         const userExists = await wallet.exists(userName);
-//         if (!userExists) {
-//             logger.debug('An identity for the user ' + userName + ' does not exist in the wallet');
-//             logger.debug('Run the registerUser.js application before retrying');
-//             let response = {};
-//             response.error = 'An identity for the user ' + userName + ' does not exist in the wallet. Register ' + userName + ' first';
-//             return response;
-//         }
-//
-//         logger.debug('before gateway.connect: ');
-//
-//         await gateway.connect(ccp, { wallet, identity: userName, discovery: gatewayDiscovery });
-//
-//         // Connect to our local fabric
-//         const network = await gateway.getNetwork('mychannel');
-//
-//         logger.debug('Connected to mychannel. ');
-//         // Get the contract we have installed on the peer
-//         const contract = await network.getContract('voterContract');
-//
-//
-//         let networkObj = {
-//             contract: contract,
-//             network: network,
-//             gateway: gateway
-//         };
-//
-//         return networkObj;
-//
-//     } catch (error) {
-//         logger.debug(`Error processing transaction. ${error}`);
-//         logger.debug(error.stack);
-//         let response = {};
-//         response.error = error;
-//         return response;
-//     } finally {
-//         logger.debug('Done connecting to network.');
-//         // gateway.disconnect();
-//     }
-// };
+
 
 /**
  * Do all initialization needed to invoke chaincode
@@ -111,6 +41,15 @@ async function connectToNetwork(userEmail) {
 
 }
 
+/**
+ * Invoke any chaincode using fabric sdk
+ *
+ * @param {String} func - The chaincode function to call
+ * @param {[String]} args - Arguments to chaincode function
+ * @param {Boolean} isQuery - True if query function, False if transaction function
+ * @param {String} userEmail - Email of fabric user that invokes chaincode. Must be enrolled and have entity in wallet.
+ * @returns {Promise<Buffer>} - Note that the returned data is a buffer and needs to be parsed to create object (eg - JSON.parse(data))
+ */
 async function invokeChaincode( func, args, isQuery, userEmail) {
     try {
         let networkObj = await connectToNetwork(userEmail);
