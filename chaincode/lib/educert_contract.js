@@ -4,7 +4,7 @@
 const { Contract } = require('fabric-contract-api');
 const Certificate = require('./certificate');
 const UniversityProfile = require('./university_profile');
-
+const Schema = require('./schema');
 
 
 class EducertContract extends Contract {
@@ -17,15 +17,12 @@ class EducertContract extends Contract {
     async initLedger(ctx) {
         console.log("-------------------------initLedger Called---------------------------------------")
         //Have nothing to initialize the ledger with at the moment. 
+        //TODO - create a separate schema class. 
+      
 
-        let schemaCertificate = {
-            dataType : "schema",
-            version: "v1",
-            ordering: ["studentName", "studentEmail", "universityName", "universityEmail", "major", "departmentName", "cgpa"],
-            certificateType: "university degree"
-        }
+        let schemaCertificate = new Schema("university degree", "v1", ["studentName", "studentEmail", "universityName", "universityEmail", "major", "departmentName", "cgpa"] );
 
-        await ctx.stub.putState("schema_v1", Buffer.from(JSON.stringify(schemaCertificate)));
+        await ctx.stub.putState("schema_" + schemaCertificate.id, Buffer.from(JSON.stringify(schemaCertificate)));
 
         return schemaCertificate;
     }
