@@ -48,7 +48,7 @@ async function connectToNetwork(userEmail) {
  * @param {[String]} args - Arguments to chaincode function
  * @param {Boolean} isQuery - True if query function, False if transaction function
  * @param {String} userEmail - Email of fabric user that invokes chaincode. Must be enrolled and have entity in wallet.
- * @returns {Promise<Buffer>} - Note that the returned data is a buffer and needs to be parsed to create object (eg - JSON.parse(data))
+ * @returns {Promise<JSON>}
  */
 async function invokeChaincode( func, args, isQuery, userEmail) {
     try {
@@ -67,8 +67,7 @@ async function invokeChaincode( func, args, isQuery, userEmail) {
                 logger.debug(`Transaction ${func} with args ${args} has been evaluated`);
 
                 await networkObj.gateway.disconnect();
-
-                return response;
+                return JSON.parse(response);
 
             } else {
 
@@ -78,7 +77,7 @@ async function invokeChaincode( func, args, isQuery, userEmail) {
 
                 await networkObj.gateway.disconnect();
 
-                return response;
+                return JSON.parse(response);
             }
         } else {
             logger.debug('notQuery');
@@ -96,7 +95,7 @@ async function invokeChaincode( func, args, isQuery, userEmail) {
 
                 await networkObj.gateway.disconnect();
 
-                return response;
+                return JSON.parse(response);
 
 
             } else {
@@ -106,7 +105,7 @@ async function invokeChaincode( func, args, isQuery, userEmail) {
 
                 await networkObj.gateway.disconnect();
 
-                return response;
+                return JSON.parse(response);
             }
         }
 

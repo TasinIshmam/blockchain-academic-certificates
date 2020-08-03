@@ -82,12 +82,10 @@ function mergeCertificateData(dbRecordArray, ledgerRecordArray) {
 async function getCertificateDataforDashboard(universityName, universtiyEmail) {
     let universityProfile = await chaincode.invokeChaincode("queryUniversityProfileByName",
         [universityName], true, universtiyEmail);
-    universityProfile = JSON.parse(universityProfile);
 
     let certLedgerDataArray = await chaincode.invokeChaincode("getAllCertificateByUniversity",
         [universityProfile.publicKey], true, universtiyEmail);
 
-    certLedgerDataArray = JSON.parse(certLedgerDataArray);
     let certUUIDArray = certLedgerDataArray.map( element => {
         return element.certUUID
     });

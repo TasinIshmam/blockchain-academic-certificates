@@ -20,7 +20,6 @@ async function generateMerkleRoot(certData) {
 
     //certSchema used to order the certificate elements appropriately.
     //ordering[i] = key of i'th item that should go in the certificate array.
-    certSchema = JSON.parse(certSchema.toString());
     for (let i = 0; i < certSchema.ordering.length ; i++) {
         let itemKey = certSchema.ordering[i];
         certDataArray.push(certData[itemKey]);

@@ -25,9 +25,9 @@ async function postRegisterUniversity(req, res, next) {
             publicKey: keys.publicKey
         });
 
-
         let result = await chaincode.invokeChaincode("registerUniversity",
             [ req.body.name, keys.publicKey, location, req.body.description], false, req.body.email);
+        logger.debug(`University Registered. Ledger profile: ${result}`);
 
         res.render("register-success", { title, root,
             logInType: req.session.user_type || "none"});
