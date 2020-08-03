@@ -1,13 +1,11 @@
 let universities = require('../database/models/universities');
-let certificates = require('../database/models/certificates');
-let students = require('../database/models/students');
 let fabricEnrollment  = require('../services/fabric/enrollment');
 let chaincode = require('../services/fabric/chaincode');
 let logger = require("../services/logger");
 let universityService = require("../services/university-service");
-//
 
-let title = "University Dashboard";
+
+let titleDashboard = "University";
 let root = "university";
 
 
@@ -38,7 +36,6 @@ async function postRegisterUniversity(req, res, next) {
     }
 }
 
-
 async function postLoginUniversity (req,res,next) {
     try {
         let universityObject = await universities.validateByCredentials(req.body.email, req.body.password)
@@ -58,7 +55,7 @@ async function logOutAndRedirect (req, res, next) {
     req.session.destroy(function () {
         res.redirect('/');
     });
-};
+}
 
 async function postIssueCertificate(req,res,next) {
     try {

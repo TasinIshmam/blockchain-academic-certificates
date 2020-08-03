@@ -29,4 +29,26 @@ async function postRegisterStudent(req, res, next) {
     }
 }
 
-module.exports = {postRegisterStudent};
+async function logOutAndRedirect (req, res, next) {
+    req.session.destroy(function () {
+        res.redirect('/');
+    });
+};
+
+
+async function postLoginStudent (req,res,next) {
+    try {
+        let studentObject = await students.validateByCredentials(req.body.email, req.body.password)
+        req.session.user_id = studentObject._id;
+        req.session.user_type = "student";
+        req.session.email = studentObject.email;
+        req.session.name = studentObject.name;
+
+        return res.redirect("/student/dashboard")
+    } catch (e) {
+        logger.error(e);
+        next(e);
+    }
+}
+
+module.exports = {postRegisterStudent, postLoginStudent, logOutAndRedirect};

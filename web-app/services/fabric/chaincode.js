@@ -48,7 +48,7 @@ async function connectToNetwork(userEmail) {
  * @param {[String]} args - Arguments to chaincode function
  * @param {Boolean} isQuery - True if query function, False if transaction function
  * @param {String} userEmail - Email of fabric user that invokes chaincode. Must be enrolled and have entity in wallet.
- * @returns {Promise<JSON>}
+ * @returns {Promise<JSON>} Data returned from ledger in Object format
  */
 async function invokeChaincode( func, args, isQuery, userEmail) {
     try {

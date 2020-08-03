@@ -3,7 +3,7 @@ const router = express.Router();
 const universityController = require('../controllers/university-controller');
 const universityMiddleware = require('../middleware/university-middleware');
 
-let title = "University Dashboard";
+let title = "University";
 let root = "university";
 
 

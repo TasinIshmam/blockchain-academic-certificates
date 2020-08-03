@@ -1,9 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const studentController = require('../controllers/student-controller');
+const studentMiddleware = require('../middleware/student-middleware');
 let title = "Student Dashboard";
 let root = "student";
 
+router.get('/dashboard', studentMiddleware.authenticateLogin, async function(req,res,next) {
+    res.send(req.session);
+});
 
 router.get('/register', function(req, res, next) {
     res.render('register-student', {   title, root,
@@ -11,23 +15,17 @@ router.get('/register', function(req, res, next) {
     });
 });
 
-//
-// router.get('/login',universityMiddleware.redirectToDashboardIfLoggedIn, function (req,res,next) {
-//     res.render('login-university',  {   title, root,
-//         logInType: req.session.user_type || "none"
-//     })
-// });
-//
-// router.get('/dashboard', universityMiddleware.authenticateLogin, function (req,res,next) {
-//     res.send(JSON.stringify(req.session));
-// });
-//
-//
+router.get('/login',studentMiddleware.redirectToDashboardIfLoggedIn, function (req,res,next) {
+    res.render('login-student',  {   title, root,
+        logInType: req.session.user_type || "none"
+    })
+});
+
+router.get('/logout', studentController.logOutAndRedirect);
 
 router.post('/register/submit', studentController.postRegisterStudent);
 
-// router.post('/login/submit', universityController.postLoginUniversity);
-//
-// router.get('/logout', universityController.logOutAndRedirect);
+router.post('/login/submit', studentController.postLoginStudent);
+
 
 module.exports = router;
