@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Blockchain Certificate</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="stylesheets/style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script src="/js/dasboard-student.js"></script>
+
+</head>
+
+<body class="bg-light">
+<%- include('partials/navbar-partial.ejs') %>
+
+
+<!--// Major-->
+<!--// CGPA-->
+<!--// Date of Issue-->
+<!--// Name of student-->
+<!--// Email of student-->
+<!--//-->
+
+<div class="container justify-content-center"  >
+
+
+    <% for(var i=0; i < certData.length; i++) { %>
+        <div class="row cert-container card">
+            <div class="col-sm-12 card-body ">
+                <div class="row text-center upper-row">
+                    <div class="col-sm-4 orange"> <strong>University<br></strong> <%= certData[i].universityName %> </div>
+                    <div class="col-sm-4 orange"><strong>University Email <br></strong> <%= certData[i].universityEmail %></div>
+                    <div class="col-sm-4 orange"><strong>CGPA <br></strong><%= certData[i].cgpa %></div>
+                </div>
+                <div class="row text-center middle-row">
+                    <div class="col-sm-4 orange"> <strong>Dept<br></strong> <%= certData[i].departmentName %></div>
+                    <div class="col-sm-4 orange"><strong>Date Of Issue<br></strong> <%= certData[i].dateOfIssuing %> </div>
+                    <div class="col-sm-4 orange"><strong>Major <br></strong><%= certData[i].major %></div>
+                </div>
+                <div class="row text-center bottom-row">
+                    <div class="col-sm-4 orange"> <strong>Certificate UUID <br></strong> <%= certData[i].certUUID %></div>
+                    <div class="col-sm-4 orange"></div>
+                    <button type="button" class="col-sm-4  btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModal" data-certid="<%= certData[i].certUUID %>">Share Certificate</button>
+                </div>
+            </div>
+        </div>
+    <% } %>
+
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="university-name">
+                            <label class="form-check-label" for="university-name">
+                                University Name
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="university-email">
+                            <label class="form-check-label" for="university-email">
+                                University Email
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="student-email">
+                            <label class="form-check-label" for="student-email">
+                                Personal Email
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="major">
+                            <label class="form-check-label" for="major">
+                                Major
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="department-name">
+                            <label class="form-check-label" for="department-name">
+                                Department Name
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="cgpa">
+                            <label class="form-check-label" for="cgpa">
+                                CGPA
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="date-of-issuing">
+                            <label class="form-check-label" for="date-of-issuing">
+                                Date of Issue
+                            </label>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Send message</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    <!--    <div class="row cert-container card">-->
+    <!--        <div class="col-sm-12 card-body ">-->
+    <!--            <div class="row text-center upper-row">-->
+    <!--                <div class="col-sm-4 orange"> <strong>Name <br></strong> Tasin Ishmam </div>-->
+    <!--                <div class="col-sm-4 orange"><strong>Email <br></strong> tasinishmam@gmail.com </div>-->
+    <!--                <div class="col-sm-4 orange"><strong>CGPA <br></strong> 3.89</div>-->
+    <!--            </div>-->
+    <!--            <div class="row text-center middle-row">-->
+    <!--                <div class="col-sm-4 orange"> <strong>Dept<br></strong> Electrical Engineering</div>-->
+    <!--                <div class="col-sm-4 orange"><strong>Date Of Issue<br></strong> 5-07-2020 </div>-->
+    <!--                <div class="col-sm-4 orange"><strong>Major <br></strong> Computer Science & Engineering</div>-->
+    <!--            </div>-->
+    <!--            <div class="row text-center bottom-row">-->
+    <!--                <div class="col-sm-4 orange"> <strong>Certificate UUID <br></strong> 4d6b9b114db1380bb8b7f035a2982</div>-->
+    <!--                <div class="col-sm-8 orange"><strong>Certificate Hash<br></strong> baadcdecdc3fd9c613d529ffa2982ed8a901943e66bc28934607804a09b68982 </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+
+</div>
+
+
+</body>
+
+
+
+</html>
+

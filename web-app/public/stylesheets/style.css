@@ -35,6 +35,9 @@ body {
   color: rgba(255,255,255,.5);
 }
 
+.form-check {
+  margin-bottom: .5rem;
+}
 
 .cert-container {
   margin-top: 3rem;

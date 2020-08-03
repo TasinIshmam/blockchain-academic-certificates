@@ -2,7 +2,7 @@ let students = require('../database/models/students');
 let fabricEnrollment  = require('../services/fabric/enrollment');
 let chaincode = require('../services/fabric/chaincode');
 let logger = require("../services/logger");
-
+let studentService = require('../services/student-service');
 
 let title = "Student Dashboard";
 let root = "student";
@@ -39,10 +39,12 @@ async function logOutAndRedirect (req, res, next) {
 async function postLoginStudent (req,res,next) {
     try {
         let studentObject = await students.validateByCredentials(req.body.email, req.body.password)
+
         req.session.user_id = studentObject._id;
         req.session.user_type = "student";
         req.session.email = studentObject.email;
         req.session.name = studentObject.name;
+        req.session.publicKey = studentObject.publicKey;
 
         return res.redirect("/student/dashboard")
     } catch (e) {
@@ -51,4 +53,17 @@ async function postLoginStudent (req,res,next) {
     }
 }
 
-module.exports = {postRegisterStudent, postLoginStudent, logOutAndRedirect};
+
+async function getDashboard(req, res, next) {
+    try {
+        let certData = await studentService.getCertificateDataforDashboard(req.session.publicKey, req.session.email);
+        res.render("dashboard-student", { title, root, certData,
+            logInType: req.session.user_type || "none"});
+
+    } catch (e) {
+        logger.error(e);
+        next(e);
+    }
+}
+
+module.exports = {postRegisterStudent, postLoginStudent, logOutAndRedirect, getDashboard};

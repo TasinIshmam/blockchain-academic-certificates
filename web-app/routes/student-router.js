@@ -5,9 +5,7 @@ const studentMiddleware = require('../middleware/student-middleware');
 let title = "Student Dashboard";
 let root = "student";
 
-router.get('/dashboard', studentMiddleware.authenticateLogin, async function(req,res,next) {
-    res.send(req.session);
-});
+router.get('/dashboard', studentMiddleware.authenticateLogin, studentController.getDashboard);
 
 router.get('/register', function(req, res, next) {
     res.render('register-student', {   title, root,

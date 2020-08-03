@@ -5,7 +5,7 @@ let logger = require("../services/logger");
 let universityService = require("../services/university-service");
 
 
-let titleDashboard = "University";
+let title = "University";
 let root = "university";
 
 
