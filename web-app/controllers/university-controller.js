@@ -84,6 +84,17 @@ async function postIssueCertificate(req,res,next) {
         logger.error(e);
         next(e);
     }
-
 }
-module.exports = {postRegisterUniversity, postLoginUniversity, logOutAndRedirect, postIssueCertificate};
+
+async function getDashboard(req, res, next) {
+    try {
+        let certData = await universityService.getCertificateDataforDashboard(req.session.name, req.session.email);
+        res.render("dashboard-university", { title, root, certData,
+            logInType: req.session.user_type || "none"});
+
+    } catch (e) {
+        logger.error(e);
+        next(e);
+    }
+}
+module.exports = {postRegisterUniversity, postLoginUniversity, logOutAndRedirect, postIssueCertificate, getDashboard};

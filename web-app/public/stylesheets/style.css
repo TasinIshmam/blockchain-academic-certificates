@@ -35,6 +35,29 @@ body {
   color: rgba(255,255,255,.5);
 }
 
+
+.cert-container {
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+  padding-top: .4rem;
+  padding-bottom: .4rem;
+}
+
+.upper-row{
+  margin-bottom: 1.5rem;
+}
+.middle-row{
+  margin-bottom: 1.5rem;
+}
+
+.list-group li {
+  list-style: none;
+}
+.panel-info, .panel-rating, .panel-more1 {
+  float: left;
+  margin: 0 10px;
+}
+
 .tab-width {
   width: 300px;
 }

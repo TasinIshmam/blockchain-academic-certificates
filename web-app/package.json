@@ -26,6 +26,7 @@
     "http-errors": "~1.6.3",
     "jsrsasign": "latest",
     "merkletreejs": "^0.2.8",
+    "moment": "^2.27.0",
     "mongoose": "^5.9.7",
     "morgan": "~1.9.1",
     "node-cache": "^5.1.2",

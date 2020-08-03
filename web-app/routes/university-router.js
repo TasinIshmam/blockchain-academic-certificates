@@ -19,9 +19,7 @@ router.get('/login',universityMiddleware.redirectToDashboardIfLoggedIn, function
     })
 });
 
-router.get('/dashboard', universityMiddleware.authenticateLogin, function (req,res,next) {
-    res.send(JSON.stringify(req.session));
-});
+router.get('/dashboard', universityMiddleware.authenticateLogin, universityController.getDashboard);
 
 router.get('/issue', universityMiddleware.authenticateLogin, function (req,res,next) {
     res.render('issue-university',  {   title, root,

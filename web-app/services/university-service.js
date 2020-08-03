@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 const universities = require('../database/models/universities');
 const certificates = require('../database/models/certificates');
 const students = require('../database/models/students');
@@ -34,11 +36,66 @@ async function issueCertificate(certData) {
     let res = await certDBModel.save();
     if(!res) throw new Error("Could not create certificate in the database");
 
-    return true;
-    //
-    // let result = await chaincode.invokeChaincode("issueCertificate",
-    //     [ req.body.name, keys.publicKey, location, req.body.description], false, req.body.email);
+    return true; //If no errors were thrown, everything completed successfully.
 }
 
 
-module.exports = {issueCertificate};
+/**
+ * Merge certificate data from Database and Blockchain Ledger
+ * Runtime is O(N^2) which is kind of inefficient.
+ * Time complexity shouldn't matter too much because N isn't going to grow very large
+ * @param {certificates[]} dbRecordArray
+ * @param ledgerRecordArray
+ * @returns {certificates[]}
+ */
+function mergeCertificateData(dbRecordArray, ledgerRecordArray) {
+    let certMergedDataArray = [];  //merge data from db and chaincode to create data for ejs view.
+
+    for (let i = 0; i < dbRecordArray.length ; i++) {
+        let dbEntry = dbRecordArray[i];
+        let chaincodeEntry = ledgerRecordArray.find((element) => {
+            return element.certUUID === dbEntry._id.toString();
+        });
+
+        certMergedDataArray.push({
+            studentName : dbEntry.studentName,
+            studentEmail : dbEntry.studentEmail,
+            cgpa : dbEntry.cgpa,
+            departmentName : dbEntry.departmentName,
+            dateOfIssuing: moment(dbEntry.dateOfIssuing).format('YYYY-MM-DD'),
+            major: dbEntry.major,
+            certUUID: dbEntry._id.toString(),
+            hash: chaincodeEntry.certHash
+
+        })
+    }
+
+    return certMergedDataArray;
+}
+
+/**
+ * Fetch and return all certificates issued by a specific university
+ * @param {String} universityName
+ * @param {String} universtiyEmail
+ * @returns {Promise<certificates[]>}
+ */
+async function getCertificateDataforDashboard(universityName, universtiyEmail) {
+    let universityProfile = await chaincode.invokeChaincode("queryUniversityProfileByName",
+        [universityName], true, universtiyEmail);
+    universityProfile = JSON.parse(universityProfile);
+
+    let certLedgerDataArray = await chaincode.invokeChaincode("getAllCertificateByUniversity",
+        [universityProfile.publicKey], true, universtiyEmail);
+
+    certLedgerDataArray = JSON.parse(certLedgerDataArray);
+    let certUUIDArray = certLedgerDataArray.map( element => {
+        return element.certUUID
+    });
+
+    let certDBRecords = await certificates.find().where('_id').in(certUUIDArray).exec();
+
+    return mergeCertificateData(certDBRecords, certLedgerDataArray);
+}
+
+
+module.exports = {issueCertificate,  getCertificateDataforDashboard};
