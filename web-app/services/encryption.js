@@ -3,16 +3,17 @@ const { MerkleTree } = require('merkletreejs');
 const SHA256 = require('crypto-js/sha256');
 const chaincode = require('./fabric/chaincode');
 const walletUtil = require('./fabric/wallet-utils');
+const certificates = require('../database/models/certificates');
 
 let ecdsa = new jsrs.ECDSA({'curve': 'secp256r1'});
 
 
 /**
- * Generate root hash of certificate using merkle tree
- * @param {certificates.schema} certData
- * @returns {Promise<string>}
+ * Generate merkle tree from certificate data using a pre-defined schema
+ * @param {certificates} certData
+ * @returns {Promise<MerkleTree>}
  */
-async function generateMerkleRoot(certData) {
+async function generateMerkleTree(certData) {
     let certSchema = await chaincode.invokeChaincode("queryCertificateSchema",
         ["v1"], true, certData.universityEmail);
 
@@ -26,9 +27,14 @@ async function generateMerkleRoot(certData) {
     }
 
     const mTreeLeaves = certDataArray.map(x => SHA256(x));
-    const mTreeRoot = new MerkleTree(mTreeLeaves, SHA256).getRoot().toString('hex');
+    const mTree = new MerkleTree(mTreeLeaves, SHA256);
 
-    return mTreeRoot;
+    return mTree;
+}
+
+async function generateMerkleRoot(certData) {
+    let mTree =  await generateMerkleTree(certData)
+     return mTree.getRoot().toString('hex');
 }
 
 async function createDigitalSignature(stringToSign, signerEmail) {
@@ -37,5 +43,63 @@ async function createDigitalSignature(stringToSign, signerEmail) {
     return signedData;
 }
 
+function getParamsIndexArray(paramsToShare, ordering){
 
-module.exports = {generateMerkleRoot, createDigitalSignature};
+    let paramsToShareIndex = paramsToShare.map( (element) => {
+        return ordering.findIndex(
+            (orderingElement) => {return orderingElement === element;}) });
+
+    return paramsToShareIndex;
+}
+
+async function generateCertificateProof(paramsToShare, certUUID, studentEmail) {
+    let certSchema = await chaincode.invokeChaincode("queryCertificateSchema",
+        ["v1"], true, studentEmail);
+
+    let certificateDBData = await certificates.findOne({"_id" : certUUID});
+
+    let mTree = await generateMerkleTree(certificateDBData);
+
+    //get the index or "ordering" of the data to share in the pre defined schema.
+    let paramsToShareIndex = getParamsIndexArray(paramsToShare, certSchema.ordering);
+
+    let multiProof = mTree.getMultiProof(mTree.getHexLayersFlat(), paramsToShareIndex);
+
+    return multiProof;
+}
+
+
+
+//disclosed data is key value pair.
+
+
+
+async function verifyCertificateProof(mTreeProof, disclosedData, certUUID) {
+    let certSchema = await chaincode.invokeChaincode("queryCertificateSchema",
+        ["v1"], true, "admin");
+    let certificateDBData = await certificates.findOne({"_id" : certUUID});
+    let mTree = await generateMerkleTree(certificateDBData);
+
+    //split object into key and value array.
+    let disclosedDataParamNames = [];
+    let disclosedDataValues = [];
+
+    for(let x in disclosedData) {
+        disclosedDataParamNames.push(x);
+        disclosedDataValues.push(disclosedData[x]);
+    }
+
+    let paramsToShareIndex = disclosedDataParamNames.map( (element) => {return certSchema.ordering.findIndex((orderingElement) => {return orderingElement === element;})});
+
+    let mTreeRoot = mTree.getRoot();
+    let disclosedDataHash = disclosedDataValues.map(x => SHA256(x));
+    //let verificationSuccess = mTree.verifyMultiProof(mTreeRoot, paramsToShareIndex, disclosedDataHash, mTree.getDepth(), mTreeProof );
+
+    let verificationSuccess = mTree.verifyMultiProof(mTreeRoot, paramsToShareIndex, disclosedDataHash, mTree.getDepth(), mTreeProof);
+
+    console.log("Verification status: " + verificationSuccess);
+    return verificationSuccess;
+}
+
+
+module.exports = {generateMerkleRoot, createDigitalSignature, generateCertificateProof, verifyCertificateProof};
