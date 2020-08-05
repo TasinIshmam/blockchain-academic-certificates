@@ -1,5 +1,3 @@
-const moment = require('moment');
-
 const universities = require('../database/models/universities');
 const certificates = require('../database/models/certificates');
 const students = require('../database/models/students');
