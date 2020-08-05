@@ -32,10 +32,16 @@ async function generateMerkleTree(certData) {
     return mTree;
 }
 
+/**
+ * Generate merkle tree root from certificate data using a pre-defined schema
+ * @param {certificates} certData
+ * @returns {Promise<string>}
+ */
 async function generateMerkleRoot(certData) {
     let mTree =  await generateMerkleTree(certData)
      return mTree.getRoot().toString('hex');
 }
+
 
 async function createDigitalSignature(stringToSign, signerEmail) {
     let hexKeyWallet = await walletUtil.loadHexKeysFromWallet(signerEmail);
@@ -43,6 +49,18 @@ async function createDigitalSignature(stringToSign, signerEmail) {
     return signedData;
 }
 
+/**
+ * Map parameter names to their indexes in certificate ordering schema.
+ * @param {String[]} paramsToShare - Name of parameters that are to be shared.
+ * @param {String[]} ordering - Order of keys in merkle tree generation. Look at Schema.ordering in chaincode
+ * @returns {int[]} Index oof the params to share based on schema ordering. Eg - [2,3]
+ *
+ * eg
+ * Input, paramsToShare: ["departmentName", "cgpa"].
+ * ordering: ["universityName", "major", "departmentName", "cgpa"]
+ * Output: [2,3]
+ *
+ */
 function getParamsIndexArray(paramsToShare, ordering){
 
     let paramsToShareIndex = paramsToShare.map( (element) => {
@@ -52,6 +70,14 @@ function getParamsIndexArray(paramsToShare, ordering){
     return paramsToShareIndex;
 }
 
+
+/**
+ * Generate a merkleTree Proof object.
+ * @param {String[]} paramsToShare - Name of parameters that are to be shared.
+ * @param {String} certUUID
+ * @param {String} studentEmail - Certiificate holder email. Used to invoke chaincode.
+ * @returns {Promise<Buffer[]>} proofObject
+ */
 async function generateCertificateProof(paramsToShare, certUUID, studentEmail) {
     let certSchema = await chaincode.invokeChaincode("queryCertificateSchema",
         ["v1"], true, studentEmail);
@@ -69,18 +95,20 @@ async function generateCertificateProof(paramsToShare, certUUID, studentEmail) {
 }
 
 
-
-//disclosed data is key value pair.
-
-
-
+/**
+ * Verify Merkle Tree Proof
+ * @param {Promise<Buffer[]>} mTreeProof
+ * @param {Object} disclosedData - Key value pair containing the disclosed data. Eg - {"attributeName" : "attributeValue" }
+ * @param {String} certUUID
+ * @returns {Promise<boolean>}
+ */
 async function verifyCertificateProof(mTreeProof, disclosedData, certUUID) {
     let certSchema = await chaincode.invokeChaincode("queryCertificateSchema",
         ["v1"], true, "admin");
     let certificateDBData = await certificates.findOne({"_id" : certUUID});
     let mTree = await generateMerkleTree(certificateDBData);
 
-    //split object into key and value array.
+    //Split disclosedData object into two separate key and value arrays.
     let disclosedDataParamNames = [];
     let disclosedDataValues = [];
 
@@ -89,7 +117,7 @@ async function verifyCertificateProof(mTreeProof, disclosedData, certUUID) {
         disclosedDataValues.push(disclosedData[x]);
     }
 
-    let paramsToShareIndex = disclosedDataParamNames.map( (element) => {return certSchema.ordering.findIndex((orderingElement) => {return orderingElement === element;})});
+    let paramsToShareIndex = getParamsIndexArray(disclosedDataParamNames, certSchema.ordering);
 
     let mTreeRoot = mTree.getRoot();
     let disclosedDataHash = disclosedDataValues.map(x => SHA256(x));
