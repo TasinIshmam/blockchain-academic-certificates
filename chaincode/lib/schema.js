@@ -7,8 +7,6 @@
 
 
 class Schema {
-    
-    
     /**
     * Schema for a certain type of certificate
     * @param {String} certificateType 
@@ -34,3 +32,5 @@ class Schema {
     }
     
 }
+
+module.exports = Schema; 

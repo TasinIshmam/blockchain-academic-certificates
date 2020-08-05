@@ -16,11 +16,8 @@ class EducertContract extends Contract {
      */
     async initLedger(ctx) {
         console.log("-------------------------initLedger Called---------------------------------------")
-        //Have nothing to initialize the ledger with at the moment. 
-        //TODO - create a separate schema class. 
       
-
-        let schemaCertificate = new Schema("university degree", "v1", ["studentName", "studentEmail", "universityName", "universityEmail", "major", "departmentName", "cgpa"] );
+        let schemaCertificate = new Schema("university degree", "v1", ["universityName", "major", "departmentName", "cgpa"] );
 
         await ctx.stub.putState("schema_" + schemaCertificate.id, Buffer.from(JSON.stringify(schemaCertificate)));
 
