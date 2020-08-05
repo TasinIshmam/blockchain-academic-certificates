@@ -46,18 +46,18 @@
                 <div class="row text-center bottom-row">
                     <div class="col-sm-4 orange"> <strong>Certificate UUID <br></strong> <%= certData[i].certUUID %></div>
                     <div class="col-sm-4 orange"></div>
-                    <button id="shareButton" type="button" class="col-sm-4  btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModal" data-certid="<%= certData[i].certUUID %>">Share Certificate</button>
+                    <button id="shareButton" type="button" class="col-sm-4  btn btn-primary btn-lg" data-toggle="modal" data-target="#shareDataModal" data-certid="<%= certData[i].certUUID %>">Share Certificate</button>
                 </div>
             </div>
         </div>
     <% } %>
 
 
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="shareDataModal" tabindex="-1" role="dialog" aria-labelledby="shareDataModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalTitle">Share Certificate</h5>
+                        <h5 class="modal-title" id="shareDataModalTitle">Share Certificate</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -77,7 +77,7 @@
                             </label>
                         </div>
                         <div class="form-check">
-                            <input name="department" class="form-check-input" type="checkbox" value="true" id="department-name">
+                            <input name="departmentName" class="form-check-input" type="checkbox" value="true" id="department-name">
                             <label class="form-check-label" for="department-name">
                                 Department Name
                             </label>
@@ -93,6 +93,47 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button id="modalCreateProof" type="button" class="btn btn-primary" data-dismiss="modal">Create Proof</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="shareSuccessModal" tabindex="-1" role="dialog" aria-labelledby="shareSuccessModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Proof Generated. Copy Proof Below.</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div id="shareSuccessModalBody" class="modal-body">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="shareFailModal" tabindex="-1" role="dialog" aria-labelledby="shareFailModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Error Generating Proof.</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div id="shareFailModalBody" class="modal-body">
+                        Failed to generate Proof.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>

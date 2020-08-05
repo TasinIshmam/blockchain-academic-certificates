@@ -25,7 +25,7 @@ const sessionMiddleware = require('./loaders/express-session-loader');
 
 //Router imports
 let indexRouter = require('./routes/index-router');
-let apiRouter = require('./routes/api');
+let apiRouter = require('./routes/api-router');
 let universityRouter = require('./routes/university-router');
 let studentRouter = require('./routes/student-router');
 

@@ -42,7 +42,12 @@ async function generateMerkleRoot(certData) {
      return mTree.getRoot().toString('hex');
 }
 
-
+/**
+ * Sign a String with a private key using Elliptic Curve Digital Signature Algorithm
+ * @param stringToSign
+ * @param signerEmail
+ * @returns {Promise<String>}
+ */
 async function createDigitalSignature(stringToSign, signerEmail) {
     let hexKeyWallet = await walletUtil.loadHexKeysFromWallet(signerEmail);
     let signedData = ecdsa.signHex(stringToSign, hexKeyWallet.privateKey);

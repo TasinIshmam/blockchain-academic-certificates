@@ -34,7 +34,9 @@ body {
   /*display: inline;*/
   color: rgba(255,255,255,.5);
 }
-
+.modal-body{
+  word-wrap: break-word;
+}
 .form-check {
   margin-bottom: .5rem;
 }
@@ -112,8 +114,6 @@ body {
   left: 50%;
   top: 50%;
   z-index: 1;
-  width: 150px;
-  height: 150px;
   margin: -75px 0 0 -75px;
   border: 16px solid #f3f3f3;
   border-radius: 50%;
