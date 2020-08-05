@@ -13,11 +13,11 @@ async function getGenerateProof(req,res,next) {
         }
 
         let mTreeProof = await encryption.generateCertificateProof(req.query.sharedAttributes, req.query.certUUID, req.session.email);
-        let sharedData = await certificates.findOne({"_id" : req.query.certUUID}).select(req.query.sharedAttributes.join(" ") + " -_id");
+        let disclosedData = await certificates.findOne({"_id" : req.query.certUUID}).select(req.query.sharedAttributes.join(" ") + " -_id");
 
         res.status(200).send({
             proof: mTreeProof,
-            sharedData: sharedData,
+            disclosedData: disclosedData,
             certUUID: req.query.certUUID
         })
     } catch (e) {

@@ -28,6 +28,7 @@ let indexRouter = require('./routes/index-router');
 let apiRouter = require('./routes/api-router');
 let universityRouter = require('./routes/university-router');
 let studentRouter = require('./routes/student-router');
+let verifyRouter = require('./routes/verify-router');
 
 //express
 let app = express();
@@ -54,6 +55,7 @@ app.use('/', indexRouter);
 app.use('/api', apiRouter);
 app.use('/university', universityRouter);
 app.use('/student', studentRouter);
+app.use('/verify', verifyRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

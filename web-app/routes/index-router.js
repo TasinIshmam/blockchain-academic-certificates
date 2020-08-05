@@ -6,9 +6,8 @@ let root = "index";
 
 /* GET home page. */
 router.get('/', function(req, res, next) { res.render('index', {   title, root,
-        logInType: req.session.user_type || "none"
-    });
-});
+    logInType: req.session.user_type || "none"
+});});
 
 
 
