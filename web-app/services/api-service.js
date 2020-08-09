@@ -3,4 +3,4 @@ const logger = require("./logger");
 const encryption = require('./encryption');
 
 
-module.export = {generateCertificateProof}
+module.export = {}
