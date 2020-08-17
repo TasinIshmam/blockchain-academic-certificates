@@ -30,8 +30,8 @@ The users of the platform include - Universities, Students and Certificate Verif
 * Endorse Verification and digitally sign academic certificates.
 
 **Students**
-* Recieve academic certificates from universities.
-* View and manage received acaddemic certificates.
+* Receive academic certificates from universities.
+* View and manage received academic certificates.
 * Share academic certificates with third party verifiers.
 * Selective disclosure of certificate data.
 
@@ -45,7 +45,7 @@ To learn more about how selective disclosure and decentralized verifications wor
 ## Getting Started
 #### Prerequisites
 
-In order to install the application, please make sure you have the following installed with atleast the same major version number.
+In order to install the application, please make sure you have the following installed with the same major version number.
 
 1) Hyperledger fabric version 2.1.x.  
 
@@ -69,7 +69,7 @@ In order to install the application, please make sure you have the following ins
     cd test-network
     ./network.sh up createChannel -ca -c mychannel -s couchdb
     ```
-3) Package the chaincode situationed in chaincode directory.  
+3) Package the chaincode situated in the chaincode directory.  
     1) Follow the instructions [here](https://hyperledger-fabric.readthedocs.io/en/release-2.2/deploy_chaincode.html#javascript)
     2) **Note**: Make sure in the final package instruction to name the package appropriately. By default it's named fabcar_1 
     
