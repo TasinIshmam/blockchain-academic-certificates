@@ -1,15 +1,13 @@
 # Academic Certificates on the Blockchain
 
-The academic certificate verification platform using blockchain technology is used to issue, manage and verify academic certificates in a secure and distributed manner. The core functionality of this application are :
+The academic certificate verification platform using blockchain technology is used to issue, manage and verify academic certificates in a secure and distributed manner. This project addresses the need for a secure digital platform to issue and verify academic certificates without intervention from the original certificate issuer (University).
+
+![solution-overview](./resources/solution-overview.png)
+
+The core functionality of this application are :
 * Create and issue academic certificates.
 * Manage and share academic certificates.
 * Verify authenticity of shared certificates.
-<br>
-<br>
-![solution-overview](./resources/solution-overview.png)
-
-This project addresses the need for a secure digital platform to issue and verify academic certificates without intervention from the original certificate issuer (University). 
-
 
 ## Architecture Overview
 ![architecture-overview](./resources/network-architecture.png)
