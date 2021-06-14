@@ -71,7 +71,7 @@ In order to install the application, please make sure you have the following ins
     1) Follow the instructions [here](https://hyperledger-fabric.readthedocs.io/en/release-2.2/deploy_chaincode.html#javascript)
     2) **Note**: Make sure in the final package instruction to name the package appropriately. By default it's named fabcar_1 
     
-4) Install the chaincode according to the instructions [here](https://hyperledger-fabric.readthedocs.io/en/release-2.2/deploy_chaincode.html#install-the-chaincode-package).
+4) Install the chaincode according to the instructions [here](https://hyperledger-fabric.readthedocs.io/en/release-2.1/deploy_chaincode.html#install-the-chaincode-package).(I'm referencing the instructions for Fabric version 2.1, please switch to the docs of your appropriate installed version).   
 
 
 #### Starting Web Application
