@@ -44,7 +44,7 @@ To learn more about how selective disclosure and decentralized verifications wor
 
 **IMPORTANT NOTE:** The instructions for building this project are out of date. I'm unfortunately not in a position right now to test and update these instructions. If you're able to get the project up and running properly. a pull request to update the following instructions is appreciated! 
 
-Related Issue: #4
+Related Issue: [#4](https://github.com/TasinIshmam/blockchain-academic-certificates/issues/4) 
 
 #### Prerequisites
 
