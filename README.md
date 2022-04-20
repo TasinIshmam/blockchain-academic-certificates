@@ -41,6 +41,11 @@ To learn more about how selective disclosure and decentralized verifications wor
 
 
 ## Getting Started
+
+**IMPORTANT NOTE:** The instructions for building this project are out of date. I'm unfortunately not in a position right now to test and update these instructions. If you're able to get the project up and running properly. a pull request to update the following instructions is appreciated! 
+
+Related Issue: #4
+
 #### Prerequisites
 
 In order to install the application, please make sure you have the following installed with the same major version number.
