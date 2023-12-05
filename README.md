@@ -116,10 +116,6 @@ Make sure mongodb and fabric network are running in the background before starti
     npm run start-development
     ```
 
-<!-- CONTACT -->
-## Contact
-
-Tasin Ishmam - [tasinishmam@gmail.com](mailto:tasinishmam@gmail.com) 
 
 Project Link: [https://github.com/TasinIshmam/blockchain-academic-certificates](https://github.com/TasinIshmam/blockchain-academic-certificates)
 
